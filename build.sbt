@@ -1,10 +1,13 @@
 val scala3Version = "3.1.1"
 
 lazy val root = project
+  .enablePlugins(NativeImagePlugin)
   .in(file("."))
   .settings(
     name := "sc-uid",
     version := "0.1.0-SNAPSHOT",
+
+    Compile / mainClass := Some("UIDApp"),
 
     scalaVersion := scala3Version,
 
