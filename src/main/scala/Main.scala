@@ -47,10 +47,6 @@ given HasTimePrecision[Options] with
 given HasRandomLength[Options] with
   extension (o: Options) def getRandomLength: Int = o.randomLength
 
-def getPrefix[E: HasPrefix]: Reader[E, String]                      = Reader(_.getPrefix)
-def getTimePrecision[E: HasTimePrecision]: Reader[E, TimePrecision] = Reader(_.getTimePrecision)
-def getRandomLength[E: HasRandomLength]: Reader[E, Int]             = Reader(_.getRandomLength)
-
 val alpha       = 'A' to 'Z' concat ('a' to 'z')
 val numeric     = List('1', '2', '3', '4', '5', '6', '7', '8', '9', '0')
 val charset     = numeric concat alpha
@@ -59,6 +55,8 @@ val charsetSize = charset size
 def encode(i: Long, encoded: String = ""): String =
   if (i == 0) { encoded }
   else { encode(i / charsetSize, charset((i % charsetSize).toInt) + encoded) }
+
+def getPrefix[E: HasPrefix]: Reader[E, String] = Reader(_.getPrefix)
 
 def getTimePart[E: HasTimePrecision]: Reader[E, String] = Reader(e =>
   val now = Instant.now().toEpochMilli
